@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import UserNotifications
 
 private let dateFormatter: DateFormatter = {
     let dateFormatter = DateFormatter()
@@ -32,6 +33,8 @@ class ListDetailTableViewController: UITableViewController {
     let largeCellHeight: CGFloat = 200
     var datePickerHidden = true
     
+    let manager = LocalNotificationManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -51,15 +54,36 @@ class ListDetailTableViewController: UITableViewController {
     func updateFromUserInterface() {
         toDoItem.name = nameField.text!
         toDoItem.notes = notesView.text
+        toDoItem.date = datePicker.date
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         updateFromUserInterface()
+        scheduleLocalNotification()
+    }
+    
+    func scheduleLocalNotification() {
+        // when to show it
+        let date = datePicker.date
+        let calendar = Calendar.current
+        let dateComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: date)
+        
+        // If there's already a local notification, keep the current ID, but update the time
+        // otherwise create a new UUID because this is new & doesn't exist.
+        var notification: LocalNotificationManager.LocalNotification!
+        if toDoItem.notificationID == nil {
+            notification = LocalNotificationManager.LocalNotification(id: UUID().uuidString, title: nameField.text!, dateComponents: dateComponents)
+        } else {
+            notification = LocalNotificationManager.LocalNotification(id: toDoItem.notificationID!, title: nameField.text!, dateComponents: dateComponents)
+        }
+        toDoItem.notificationID = notification.id
+        manager.notifications.append(notification)
+        manager.schedule()
     }
     
     @IBAction func datePickerValueChanged(_ sender: UIDatePicker) {
         dateLabel.text = dateFormatter.string(from: sender.date)
-        toDoItem.date = sender.date
+        //toDoItem.date = sender.date
     }
     
     @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {

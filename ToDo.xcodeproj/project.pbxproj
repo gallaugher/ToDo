@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3E2D468023E3400B001A71A6 /* LocalNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2D467F23E3400B001A71A6 /* LocalNotificationManager.swift */; };
 		3EBBC4D723E1F0B300F14312 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBBC4D623E1F0B300F14312 /* ListTableViewCell.swift */; };
 		3EE8FA4623E10B0600B3FB2C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE8FA4523E10B0600B3FB2C /* AppDelegate.swift */; };
 		3EE8FA4823E10B0600B3FB2C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE8FA4723E10B0600B3FB2C /* SceneDelegate.swift */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3E2D467F23E3400B001A71A6 /* LocalNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationManager.swift; sourceTree = "<group>"; };
 		3EBBC4D623E1F0B300F14312 /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
 		3EE8FA4223E10B0600B3FB2C /* ToDo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EE8FA4523E10B0600B3FB2C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -64,6 +66,7 @@
 			children = (
 				3EE8FA4523E10B0600B3FB2C /* AppDelegate.swift */,
 				3EE8FA4723E10B0600B3FB2C /* SceneDelegate.swift */,
+				3E2D467F23E3400B001A71A6 /* LocalNotificationManager.swift */,
 				3EE8FA5B23E1207300B3FB2C /* ToDoItem.swift */,
 				3EE8FA4923E10B0600B3FB2C /* ListViewController.swift */,
 				3EE8FA5923E1151800B3FB2C /* ListDetailTableViewController.swift */,
@@ -147,6 +150,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3E2D468023E3400B001A71A6 /* LocalNotificationManager.swift in Sources */,
 				3EE8FA5A23E1151800B3FB2C /* ListDetailTableViewController.swift in Sources */,
 				3EE8FA4A23E10B0600B3FB2C /* ListViewController.swift in Sources */,
 				3EE8FA5C23E1207300B3FB2C /* ToDoItem.swift in Sources */,

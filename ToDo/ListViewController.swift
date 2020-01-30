@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import UserNotifications
 
 class ListViewController: UIViewController, ListTableViewCellDelegate {
     @IBOutlet weak var tableView: UITableView!
@@ -14,16 +15,44 @@ class ListViewController: UIViewController, ListTableViewCellDelegate {
     @IBOutlet weak var addBarButton: UIBarButtonItem!
     
     var listItems: [ToDoItem] = []
+    var localNotificationsManager = LocalNotificationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureListItems()
+//         configureListItems()
+        loadData()
         tableView.dataSource = self
         tableView.delegate = self
     }
     
-    func configureListItems() {
+    func loadData() {
+        let DocumentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let ArchiveURL = DocumentsDirectory.appendingPathComponent("todos").appendingPathExtension("plist")
         
+        guard let data = try? Data(contentsOf: ArchiveURL) else {return}
+        let jsonDecoder = JSONDecoder()
+        do {
+            listItems = try jsonDecoder.decode(Array<ToDoItem>.self, from: data)
+            tableView.reloadData()
+        } catch {
+            print("*** decoding during loadData failed")
+        }
+    }
+    
+    func saveData() {
+        let DocumentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let ArchiveURL = DocumentsDirectory.appendingPathComponent("todos").appendingPathExtension("plist")
+        
+        let jsonEncoder = JSONEncoder()
+        let data = try? jsonEncoder.encode(listItems)
+        do {
+            try data?.write(to: ArchiveURL, options: .noFileProtection)
+        } catch {
+            print("*** Couldn't saveData")
+        }
+    }
+    
+    func configureListItems() {
         listItems.append(ToDoItem(name: "Work on Swift Book", date: Date(), notes: "Hurry up! Swifters be waitin'!", completed: true))
         listItems.append(ToDoItem(name: "Exercise", date: Date(), notes: "Marathons want you!", completed: false))
         listItems.append(ToDoItem(name: "Play Guitar", date: Date(), notes: "Juke Box Hero!", completed: false))
@@ -52,6 +81,7 @@ class ListViewController: UIViewController, ListTableViewCellDelegate {
             tableView.insertRows(at: [newIndexPath], with: .bottom)
             tableView.scrollToRow(at: newIndexPath, at: .bottom, animated: true)
         }
+        saveData()
     }
     
     @IBAction func editBarButtonPressed(_ sender: UIBarButtonItem) {
@@ -75,6 +105,13 @@ class ListViewController: UIViewController, ListTableViewCellDelegate {
         }
     }
     
+    @IBAction func listNotificationsPressed(_ sender: UIBarButtonItem) {
+        localNotificationsManager.listScheduledNotifications()
+    }
+    
+    @IBAction func deleteAllNotifications(_ sender: UIBarButtonItem) {
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+    }
 }
 
 extension ListViewController: UITableViewDelegate, UITableViewDataSource {
@@ -91,9 +128,18 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            removeNotification(toDoItem: listItems[indexPath.row])
             listItems.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
+    }
+    
+    func removeNotification(toDoItem: ToDoItem) {
+        localNotificationsManager.listScheduledNotifications()
+        guard let notificationID = toDoItem.notificationID  else {
+            return
+        }
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notificationID])
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
@@ -101,6 +147,4 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
         listItems.remove(at: sourceIndexPath.row)
         listItems.insert(itemToMove, at: destinationIndexPath.row)
     }
-    
-    
 }

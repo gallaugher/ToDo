@@ -63,16 +63,30 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="To Do List" id="Xf4-8s-Vqs">
-                        <barButtonItem key="leftBarButtonItem" title="Edit" id="Dgr-Fi-eqN">
-                            <connections>
-                                <action selector="editBarButtonPressed:" destination="BYZ-38-t0r" id="yJ6-GY-u2F"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="v45-z8-OwX">
-                            <connections>
-                                <segue destination="nij-ov-i60" kind="presentation" identifier="AddDetail" id="Gds-7q-n0M"/>
-                            </connections>
-                        </barButtonItem>
+                        <leftBarButtonItems>
+                            <barButtonItem title="Edit" id="Dgr-Fi-eqN">
+                                <connections>
+                                    <action selector="editBarButtonPressed:" destination="BYZ-38-t0r" id="yJ6-GY-u2F"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Notifications" id="Pgh-or-ENS">
+                                <connections>
+                                    <action selector="listNotificationsPressed:" destination="BYZ-38-t0r" id="d7d-dP-ybs"/>
+                                </connections>
+                            </barButtonItem>
+                        </leftBarButtonItems>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="add" id="v45-z8-OwX">
+                                <connections>
+                                    <segue destination="nij-ov-i60" kind="presentation" identifier="AddDetail" id="Gds-7q-n0M"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem systemItem="trash" id="GIF-0B-BP8">
+                                <connections>
+                                    <action selector="deleteAllNotifications:" destination="BYZ-38-t0r" id="7bH-ej-yW1"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="addBarButton" destination="v45-z8-OwX" id="cFv-ye-sKi"/>
@@ -103,7 +117,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Some Bogus Data Here" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hvb-Bz-tQr">
-                                                    <rect key="frame" x="19" y="4" width="381" height="34"/>
+                                                    <rect key="frame" x="18" y="4" width="381" height="34"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -130,7 +144,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="12/12/12, 12:12:12 PM" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xhd-Zz-pAx">
-                                                    <rect key="frame" x="178" y="11" width="215" height="21"/>
+                                                    <rect key="frame" x="177" y="11" width="215" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
                                                     <nil key="textColor"/>
